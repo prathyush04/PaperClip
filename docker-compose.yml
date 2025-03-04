@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  paper-analyzer:
+    build: .
+    volumes:
+      - "C:/Users/Vinish/Reference:/app/Reference"
+      - "C:/Users/Vinish/Papers:/app/papers"
+      - "C:/Users/Vinish/PaperClip/output:/app/output"
+    environment:
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 4G
