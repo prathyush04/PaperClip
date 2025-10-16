@@ -1,0 +1,387 @@
+Do You See What I Mean? Visual Resolution of
+Linguistic Ambiguities
+Abstract
+Understanding language goes hand in hand with the ability to integrate com-
+plex contextual information obtained via perception. We present a novel task for
+grounded language understanding: disambiguating a sentence given a visual scene
+which depicts one of the possible interpretations of that sentence. To this end, we
+introduce a new multimodal corpus containing ambiguous sentences, representing
+a wide range of syntactic, semantic and discourse ambiguities, coupled with videos
+that visualize the different interpretations for each sentence. We address this task
+by extending a vision model which determines if a sentence is depicted by a video.
+We demonstrate how such a model can be adjusted to recognize different interpre-
+tations of the same underlying sentence, allowing to disambiguate sentences in a
+unified fashion across the different ambiguity types.
+1 Introduction
+Ambiguity is one of the defining characteristics of human languages, and language understanding
+crucially relies on the ability to obtain unambiguous representations of linguistic content. While
+some ambiguities can be resolved using intra-linguistic contextual cues, the disambiguation of many
+linguistic constructions requires integration of world knowledge and perceptual information obtained
+from other modalities.
+We focus on the problem of grounding language in the visual modality, and introduce a novel task
+for language understanding which requires resolving linguistic ambiguities by utilizing the visual
+context in which the linguistic content is expressed. This type of inference is frequently called for in
+human communication that occurs in a visual environment, and is crucial for language acquisition,
+when much of the linguistic content refers to the visual surroundings of the child.
+Our task is also fundamental to the problem of grounding vision in language, by focusing on
+phenomena of linguistic ambiguity, which are prevalent in language, but typically overlooked when
+using language as a medium for expressing understanding of visual content. Due to such ambiguities,
+a superficially appropriate description of a visual scene may in fact not be sufficient for demonstrating
+a correct understanding of the relevant visual content. Our task addresses this issue by introducing a
+deep validation protocol for visual understanding, requiring not only providing a surface description
+of a visual activity but also demonstrating structural understanding at the levels of syntax, semantics
+and discourse.
+To enable the systematic study of visually grounded processing of ambiguous language, we create
+a new corpus, LA V A (Language and Vision Ambiguities). This corpus contains sentences with
+linguistic ambiguities that can only be resolved using external information. The sentences are paired
+with short videos that visualize different interpretations of each sentence. Our sentences encompass a
+wide range of syntactic, semantic and dis-
+course ambiguities, including ambiguous prepositional and verb phrase attachments, conjunctions,
+logical forms, anaphora and ellipsis. Overall, the corpus contains 237 sentences, with 2 to 3
+interpretations per sentence, and an average of 3.37 videos that depict visual variations of each
+sentence interpretation, corresponding to a total of 1679 videos.
+Using this corpus, we address the problem of selecting the interpretation of an ambiguous sentence
+that matches the content of a given video. Our approach for tackling this task extends the sentence
+tracker. The sentence tracker produces a score which determines if a sentence is depicted by a
+video. This earlier work had no concept of ambiguities; it assumed that every sentence had a single
+interpretation. We extend this approach to represent multiple interpretations of a sentence, enabling
+us to pick the interpretation that is most compatible with the video.
+2 Related Work
+Previous language and vision studies focused on the development of multimodal word and sentence
+representations as well as methods for describing images and videos in natural language. While these
+studies handle important challenges in multimodal processing of language and vision, they do not
+provide explicit modeling of linguistic ambiguities.
+Previous work relating ambiguity in language to the visual modality addressed the problem of word
+sense disambiguation. However, this work is limited to context independent interpretation of individ-
+ual words, and does not consider structure-related ambiguities. Discourse ambiguities were previously
+studied in work on multimodal coreference resolution. Our work expands this line of research, and
+addresses further discourse ambiguities in the interpretation of ellipsis. More importantly, to the best
+of our knowledge our study is the first to present a systematic treatment of syntactic and semantic
+sentence level ambiguities in the context of language and vision.
+The interactions between linguistic and visual information in human sentence processing have been
+extensively studied in psycholinguistics and cognitive psychology. A considerable fraction of this
+work focused on the processing of ambiguous language, providing evidence for the importance of
+visual information for linguistic ambiguity resolution by humans. Such information is also vital
+during language acquisition, when much of the linguistic content perceived by the child refers to their
+immediate visual environment. Over time, children develop mechanisms for grounded disambiguation
+of language, manifested among others by the usage of iconic gestures when communicating ambigu-
+ous linguistic content. Our study leverages such insights to develop a complementary framework that
+enables addressing the challenge of visually grounded disambiguation of language in the realm of
+artificial intelligence.
+3 Task
+We provide a concrete framework for the study of language understanding with visual context by
+introducing the task of grounded language disambiguation. This task requires to choose the correct
+linguistic representation of a sentence given a visual context depicted in a video. Specifically, provided
+with a sentence, n candidate interpretations of that sentence and a video that depicts the content of
+the sentence, one needs to choose the interpretation that corresponds to the content of the video.
+To illustrate this task, consider the example, where we are given the sentence “Sam approached the
+chair with a bag” along with two different linguistic interpretations. In the first in-
+terpretation, which corresponds to parse 1(a), Sam has the bag. In the second interpretation associated
+with parse 1(b), the bag is on the chair rather than with Sam. Given the visual context from figure
+1(c), the task is to choose which interpretation is most appropriate for the sentence.
+4 Approach Overview
+To address the grounded language disambiguation task, we use a compositional approach for determin-
+ing if a specific interpretation of a sentence is depicted by a video. a sentence and an accompanying
+interpretation encoded in first order logic, give rise to a grounded model that matches a video against
+the provided sentence interpretation.
+The model is comprised of Hidden Markov Models (HMMs) which encode the semantics of words,
+and trackers which locate objects in video frames. To represent an interpretation of a sentence, word
+models are combined with trackers through a cross-product which respects the semantic representation
+of the sentence to create a single model which recognizes that interpretation.
+2
+Given a sentence, we construct an HMM based representation for each interpretation of that sentence.
+We then detect candidate locations for objects in every frame of the video. Together the re-
+forestation for the sentence and the candidate object locations are combined to form a model which
+can determine if a given interpretation is depicted by the video. We test each interpretation and report
+the interpretation with highest likelihood.
+5 Corpus
+To enable a systematic study of linguistic ambiguities that are grounded in vision, we compiled
+a corpus with ambiguous sentences describing visual actions. The sentences are formulated such
+that the correct linguistic interpretation of each sentence can only be determined using external,
+non-linguistic, information about the depicted activity. For example, in the sentence “Bill held the
+green chair and bag”, the correct scope of “green” can only be determined by integrating additional
+information about the color of the bag. This information is provided in the accompanying videos,
+which visualize the possible interpretations of each sentence. Figure 2 presents the syntactic parses
+for this example along with frames from the respective videos. Although our videos contain visual
+uncertainty, they are not ambiguous with respect to the linguistic interpretation they are presenting,
+and hence a video always corresponds to a single candidate representation of a sentence.
+The corpus covers a wide range of well
+known syntactic, semantic and discourse ambiguity classes. While the ambiguities are associated
+with various types, different sentence interpretations always represent distinct sentence meanings,
+and are hence encoded semantically using first order logic. For syntactic and discourse ambiguities
+we also provide an additional, ambiguity type specific encoding as described below.
+•Syntax Syntactic ambiguities include Prepositional Phrase (PP) attachments, Verb Phrase
+(VP) attachments, and ambiguities in the interpretation of conjunctions. In addition to
+logical forms, sentences with syntactic ambiguities are also accompanied with Context Free
+Grammar (CFG) parses of the candidate interpretations, generated from a deterministic CFG
+parser.
+•Semantics The corpus addresses several classes of semantic quantification ambiguities, in
+which a syntactically unambiguous sentence may correspond to different logical forms. For
+each such sentence we provide the respective logical forms.
+•Discourse The corpus contains two types of discourse ambiguities, Pronoun Anaphora and
+Ellipsis, offering examples comprising two sentences. In anaphora ambiguity cases, an
+ambiguous pronoun in the second sentence is given its candidate antecedents in the first
+sentence, as well as a corresponding logical form for the meaning of the second sentence. In
+ellipsis cases, a part of the second sentence, which can constitute either the subject and the
+verb, or the verb and the object, is omitted. We provide both interpretations of the omission
+in the form of a single unambiguous sentence, and its logical form, which combines the
+meanings of the first and the second sentences.
+Table 2 lists examples of the different ambiguity classes, along with the candidate interpretations of
+each example.
+The corpus is generated using Part of Speech (POS) tag sequence templates. For each template, the
+POS tags are replaced with lexical items from the corpus lexicon, described in table 3, using all the
+visually applicable assignments. This generation process yields an overall of 237 sentences,
+of which 213 sentences have 2 candidate interpretations, and 24 sentences have 3 interpretations.
+Table 1 presents the corpus templates for each ambiguity class, along with the number of sentences
+generated from each template.
+The corpus videos are filmed in an indoor environment containing background objects and pedestrians.
+To account for the manner of performing actions, videos are shot twice with different actors. Whenever
+applicable, we also filmed the actions from two different directions (e.g. approach from the left,
+and approach from the right). Finally, all videos were shot with two cameras from two different
+view points. Taking these variations into account, the resulting video corpus contains 7.1 videos
+per sentence and 3.37 videos per sentence interpretation, corresponding to a total of 1679 videos.
+3
+Table 1: POS templates for generating the sentences in our corpus. The rightmost column represents
+the number of sentences in each category. The sentences are produced by replacing the POS tags
+with all the visually applicable assignments of lexical items from the corpus lexicon shown in table 3.
+Ambiguity Templates #
+4*Syntax PP NNP V DT [JJ] NN1 IN DT [JJ] NN2. 48
+VP NNP1 V [IN] NNP2 V [JJ] NN. 60
+ConjunctionNNP1 [and NNP2] V DT JJ NN1 and NN2
+NNP V DT NN1 or DT NN2 and DT NN3.40
+Total 148
+Semantics Logical FormNNP1 and NNP2 V a NN.
+Someone V the NNS.35
+2*Discourse Anaphora NNP V DT NN1 and DT NN2. It is JJ. 36
+Ellipsis NNP1 V NNP2. Also NNP3. 18
+Total 54
+Total 237
+The average video length is 3.02 seconds (90.78 frames), with in an overall of 1.4 hours of footage
+(152434 frames).
+A custom corpus is required for this task because no existing corpus, containing either videos or
+images, systematically covers multimodal ambiguities. Datasets aim to control for more aspects of
+the videos than just the main action being performed but they do not provide the range of ambiguities
+discussed here. The closest dataset is that of as it controls for object appearance, color, action,
+and direction of motion, making it more likely to be suitable for evaluating disambiguation tasks.
+Unfortunately, that dataset was designed to avoid ambiguities, and therefore is not suitable for
+evaluating the work described here.
+6 Model
+To perform the disambiguation task, we extend the sentence recognition model which represents
+sentences as compositions of words. Given a sentence, its first order logic interpretation and a
+video, our model produces a score which determines if the sentence is depicted by the video. It
+simultaneously tracks the participants in the events described by the sentence while recognizing the
+events themselves. This al-
+lows it to be flexible in the presence of noise by integrating top-down information from the sentence
+with bottom-up information from object and property detectors. Each word in the query sentence is
+represented by an HMM, which recognizes tracks (i.e. paths of detections in a video for a specific
+object) that satisfy the semantics of the given word. In essence, this model can be described as having
+two layers, one in which object tracking occurs and one in which words observe tracks and filter
+tracks that do not satisfy the word constraints.
+Given a sentence interpretation, we construct a sentence-specific model which recognizes if a video
+depicts the sentence as follows. Each predicate in the first order logic formula has a corresponding
+HMM, which can recognize if that predicate is true of a video given its arguments. Each variable has
+a corresponding tracker which attempts to physically locate the bounding box corresponding to that
+variable in each frame of a
+video. This creates a bipartite graph: HMMs that represent predicates are connected to trackers that
+represent variables. The trackers themselves are similar to the HMMs, in that they comprise a lattice
+of potential bounding boxes in every frame. To construct a joint model for a sentence interpretation,
+we take the cross product of HMMs and trackers, taking only those cross products dictated by the
+structure of the formula corresponding to the desired interpretation. Given a video, we employ an
+object detector to generate candidate detections in each frame, construct trackers which select one of
+these detections in each frame, and finally construct the overall model from HMMs and trackers.
+4
+Table 2: An overview of the different ambiguity types, along with examples of ambiguous sentences
+with their linguistic and visual interpretations. Note that similarly to semantic ambiguities, syntactic
+and discourse ambiguities are also provided with first order logic formulas for the resulting sentence
+interpretations. Table 4 shows additional examples for each ambiguity type, with frames from sample
+videos corresponding to the different interpretations of each sentence.
+Ambiguity Example Linguistic interpretations Visual setups
+PP Claire left the green chair with a
+yellow bag.Claire [left the green chair] [with
+a yellow bag].
+Claire left [the green chair with
+a yellow bag].The bag is with Claire.
+The bag is on the chair.
+VP Claire looked at Bill picking up
+a chair.Claire looked at [Bill [picking up
+a chair]].
+Claire [looked at Bill] [picking
+up a chair].Bill picks up the chair.
+Claire picks up the chair.
+Conjunction Claire held a green bag and
+chair.Claire held a [green [bag and
+chair]].
+Claire held a [[green bag] and
+[chair]].The chair is green.
+The chair is not green.
+Claire held the chair or the bag
+and the telescope.Claire held [[the chair] or [the
+bag and the telescope]].
+Claire held [[the chair or the bag]
+and [the telescope]].Claire holds the chair.
+Claire holds the chair and the
+telescope.
+Logical Form Someone moved the two chairs. chair( x), move(Claire, x),
+move(Bill, x)
+chair( x), chair( y),x ̸=y,
+move(Claire, x),
+move(Bill, y)
+chair( x), chair( y),x ̸=y,
+person( u),
+move( u,x), move( u,y)
+chair( x), chair( y),x ̸=y,
+person( u), person( v)
+u ̸=v, move( u,x), move( v,y)Claire and Bill move the same
+chair.
+Claire and Bill move different
+chairs.
+One person moves both chairs.
+Each chair moved by a different
+person.
+Anaphora Sam picked up the bag and the
+chair. It is yellow.It = bag
+It = chairThe bag is yellow.
+The chair is yellow.
+Ellipsis Sam left Bill. Also Clark. Sam left Bill and Clark.
+Sam and Clark left Bill.Sam left Bill and Clark.
+Sam and Clark left Bill.
+Table 3: The lexicon used to instantiate the templates in table 1 in order to generate the corpus.
+Syntactic Category Visual Category Words
+Nouns Objects, People chair, bag, telescope, someone, proper names
+Verbs Actions pick up, put down, hold, move (transitive), look at, approach, leave
+Prepositions Spacial Relations with, left of, right of, on
+Adjectives Visual Properties yellow, green
+Provided an interpretation and its corresponding formula composed of P predicates and V variables,
+along with a collection of object detections, bframe
+i detection index, in each frame of a video of
+length T the model computes the score of the videosentence pair by finding the optimal detection
+for each participant in every frame. This is in essence the Viterbi algorithm, the MAP algorithm for
+HMMs, applied to finding optimal object detections jframe
+variable for each participant, and the optimal
+statekframe
+predicatefor each predicate HMM, in every frame. Each detection is scored by its confidence
+from the object detector, f and each object track is scored by a motion coherence metric g which
+5
+determines if the motion of the track agrees with the underlying optical flow. Each predicate,
+max
+i1...iV
+k1...kPVX
+v=1 
+F(b1
+i1v) +TX
+t=2g(bt
+it−1
+v, bt
+itv)!
++
+PX
+p=1TX
+t=1 
+loghp(kt
+p, bθp(1)
+it
+θp(1), bθp(2)
+it
+θp(2)) +TX
+t=2logap(kt−1
+p, kt
+p)! (1)
+p, is scored by the probability of observing a particular detection in a given state hp, and by the
+probability of transitioning between states ap. The structure of the formula and the fact that multiple
+predicates often refer to the same variables is recorded by θ, a mapping between predicates and their
+arguments. The model computes the MAP estimate as:
+for sentences which have words that refer to at most two tracks (i.e. transitive verbs or binary
+predicates) but is trivially extended to arbitrary arities. Figure 3 provides a visual overview of the
+model as a cross-product of tracker models and word models.
+Our model extends the approach of in several ways. First, we depart from the dependency based
+representation used in that work, and recast the model to encode first order logic formulas. Note
+that some complex first order logic formulas cannot be directly encoded in the model and require
+additional inference steps. This extension enables us to represent ambiguities in which a given
+sentence has multiple logical interpretations for the same syntactic parse.
+Second, we introduce several model components which are not specific to disambiguation, but are
+required to encode linguistic constructions that are present in our corpus and could not be handled by
+the model of. These new components are the predicate “not equal”, disjunction, and conjunction. The
+key addition among these components is support for the new predicate “not equal”, which enforces
+that two tracks, i.e. objects, are distinct from each other. For example, in the sentence “Claire and Bill
+moved a chair” one would want to ensure that the two movers are distinct entities. In earlier work,
+this was not required because the sentences tested in that work were designed to distinguish objects
+based on constraints rather than identity. In other words, there might have been two different people
+but they were distinguished in the sentence by their actions or appearance. To faithfully recognize
+that two actors are moving the chair in the earlier example, we must ensure that they are disjoint
+from each other. In order to do this we create a new HMM for this predicate, which assigns low
+probability to tracks that heavily overlap, forcing the model to fit two different actors in the previous
+example. By combining the new first order logic based semantic representation in lieu of a syntactic
+representation with a more expressive model, we can encode the sentence interpretations required to
+perform the disambiguation task.
+Figure 3(left) shows an example of two different interpretations of the above discussed sentence
+“Claire and Bill moved a chair”. Object trackers, which correspond to variables in the first order
+logic representation of the sentence interpretation, are shown in red. Predicates which constrain the
+possible bindings of the trackers, corresponding to predicates in the representation of the sentence, are
+shown in blue. Links represent the argument structure of the first order logic formula, and determine
+the cross products that are taken between the predicate HMMs and tracker lattices in order to form
+the joint model which recognizes the entire interpretation in a video.
+The resulting model provides a single unified formalism for representing all the ambiguities in table
+2. Moreover, this approach can be tuned to different levels of specificity. We can create models that
+are specific to one interpretation of a sentence or that are generic, and accept multiple interpretations
+by eliding constraints that are not com-
+mon between the different interpretations. This allows the model, like humans, to defer deciding on a
+particular interpretation or to infer that multiple interpretation of the sentence are plausible.
+7 Experimental Results
+We tested the performance of the model described in the previous section on the LA V A dataset
+presented in section 5. Each video in the dataset was pre-processed with object detectors for humans,
+bags, chairs, and telescopes. We employed a mixture of CNN and DPM detectors, trained on held
+out sections of our corpus. For each object class we generated proposals from both the CNN and
+6
+the DPM detectors, and trained a scoring function to map both results into the same space. The
+scoring function consisted of a sigmoid over the confidence of the detectors trained on the same held
+out portion of the training set. As none of the disambiguation examples discussed here rely on the
+specific identity of the actors, we did not detect their identity. Instead, any sentence which contains
+names was automatically converted to one which contains arbitrary “person” labels.
+The sentences in our corpus have either two or three interpretations. Each interpretation has one or
+more associated videos where the scene was shot from a different angle, carried out either by different
+actors, with different objects, or in different directions of motion. For each sentence-video pair, we
+performed a 1-out-of-2 or 1-out-of-3 classification task to determine which of the interpretations of
+the corresponding sentence best fits that video. Overall chance performance on our dataset is 49.04%,
+slightly lower than 50% due to the 1out-of-3 classification examples.
+The model presented here achieved an accuracy of 75.36% over the entire corpus averaged across
+all error categories. This demonstrates that the model is largely capable of capturing the underlying
+task and that similar compositional crossmodal models may do the same. For each of the 3 major
+ambiguity classes we had an accuracy of 84.26% for syntactic ambiguities, 72.28% for semantic
+ambiguities, and 64.44% for discourse ambiguities.
+The most significant source of model failures are poor object detections. Objects are often rotated
+and presented at angles that are difficult to recognize. Certain object classes like the telescope
+are much more difficult to recognize due to their small size and the fact that hands tend to largely
+occlude them. This accounts for the degraded performance of the semantic ambiguities relative to the
+syntactic ambiguities, as many more semantic ambiguities involved the telescope. Object detector
+performance is similarly responsible for the lower performance of the discourse ambiguities which
+relied much more on the accuracy of the person detector as many sentences involve only people
+interacting with each other without any additional objects. This degrades performance by removing a
+helpful constraint for inference, according to which people tend to be close to the objects they are
+manipulating. In addition, these sentences introduced more visual uncertainty as they often involved
+three actors.
+The remaining errors are due to the event models. HMMs can fixate on short sequences of events
+which seem as if they are part of an action, but in fact are just noise or the prefix of another action.
+Ideally, one would want an event model which has a global view of the action, if an object went up
+from the beginning to the end of the video while a person was holding it, it’s likely that the object was
+being picked up. The event models used here cannot enforce this constraint, they merely assert that
+the object was moving up for some number of frames; an event which can happen due to noise in the
+object detectors. Enforcing such local constraints instead of the global constraint of the motion of the
+object over the video makes joint tracking and event recognition tractable in the framework presented
+here but can lead to errors. Finding models which strike a better balance between local information
+and global constraints while maintaining tractable inference remains an area of future work.
+8 Conclusion
+We present a novel framework for studying ambiguous utterances expressed in a visual context. In
+particular, we formulate a new task for resolving structural ambiguities using visual signal. This is a
+fundamental task for humans, involving complex cognitive processing, and is a key challenge for
+language acquisition during childhood. We release a multimodal corpus that enables to address this
+task, as well as support further investigation of ambiguity related phenomena in visually grounded
+language processing. Finally, we
+present a unified approach for resolving ambiguous descriptions of videos, achieving good perfor-
+mance on our corpus.
+While our current investigation focuses on structural inference, we intend to extend this line of work
+to learning scenarios, in which the agent has to deduce the meaning of words and sentences from
+structurally ambiguous input. Furthermore, our framework can be beneficial for image and video
+retrieval applications in which the query is expressed in natural language. Given an ambiguous query,
+our approach will enable matching and clustering the retrieved results according to the different query
+interpretations.
+7

@@ -1,0 +1,408 @@
+Generalization in ReLU Networks via Restricted
+Isometry and Norm Concentration
+Abstract
+Regression tasks, while aiming to model relationships across the entire input space,
+are often constrained by limited training data. Nevertheless, if the hypothesis func-
+tions can be represented effectively by the data, there is potential for identifying a
+model that generalizes well. This paper introduces the Neural Restricted Isometry
+Property (NeuRIPs), which acts as a uniform concentration event that ensures all
+shallow ReLU networks are sketched with comparable quality. To determine the
+sample complexity necessary to achieve NeuRIPs, we bound the covering numbers
+of the networks using the Sub-Gaussian metric and apply chaining techniques. As-
+suming the NeuRIPs event, we then provide bounds on the expected risk, applicable
+to networks within any sublevel set of the empirical risk. Our results show that all
+networks with sufficiently small empirical risk achieve uniform generalization.
+1 Introduction
+A fundamental requirement of any scientific model is a clear evaluation of its limitations. In recent
+years, supervised machine learning has seen the development of tools for automated model discovery
+from training data. However, these methods often lack a robust theoretical framework to estimate
+model limitations. Statistical learning theory quantifies the limitation of a trained model by the
+generalization error. This theory uses concepts such as the VC-dimension and Rademacher complexity
+to analyze generalization error bounds for classification problems. While these traditional complexity
+notions have been successful in classification problems, they do not apply to generic regression
+problems with unbounded risk functions, which are the focus of this study. Moreover, traditional
+tools in statistical learning theory have not been able to provide a fully satisfying generalization
+theory for neural networks.
+Understanding the risk surface during neural network training is crucial for establishing a strong
+theoretical foundation for neural network-based machine learning, particularly for understanding
+generalization. Recent studies on neural networks suggest intriguing properties of the risk surface.
+In large networks, local minima of the risk form a small bond at the global minimum. Surprisingly,
+global minima exist in each connected component of the risk’s sublevel set and are path-connected.
+In this work, we contribute to a generalization theory for shallow ReLU networks, by giving uniform
+generalization error bounds within the empirical risk’s sublevel set. We use methods from the analysis
+of convex linear regression, where generalization bounds for empirical risk minimizers are derived
+from recent advancements in stochastic processes’ chaining theory. Empirical risk minimization
+for non-convex hypothesis functions cannot generally be solved efficiently. However, under certain
+assumptions, it is still possible to derive generalization error bounds, as we demonstrate in this paper
+for shallow ReLU networks. Existing works have applied methods from compressed sensing to
+bound generalization errors for arbitrary hypothesis functions. However, they do not capture the
+risk’s stochastic nature through the more advanced chaining theory.
+This paper is organized as follows. We begin in Section II by outlining our assumptions about the
+parameters of shallow ReLU networks and the data distribution to be interpolated. The expected and
+empirical risk are introduced in Section III, where we define the Neural Restricted Isometry Property
+.
+(NeuRIPs) as a uniform norm concentration event. We present a bound on the sample complexity for
+achieving NeuRIPs in Theorem 1, which depends on both the network architecture and parameter
+assumptions. We provide upper bounds on the generalization error that are uniformly applicable
+across the sublevel sets of the empirical risk in Section IV . We prove this property in a network
+recovery setting in Theorem 2, and also an agnostic learning setting in Theorem 3. These results
+ensure a small generalization error, when any optimization algorithm finds a network with a small
+empirical risk. We develop the key proof techniques for deriving the sample complexity of achieving
+NeuRIPs in Section V , by using the chaining theory of stochastic processes. The derived results are
+summarized in Section VI, where we also explore potential future research directions.
+2 Notation and Assumptions
+In this section, we will define the key notations and assumptions for the neural networks examined
+in this study. A Rectified Linear Unit (ReLU) function ϕ:R→Ris given by ϕ(x) := max( x,0).
+Given a weight vector w∈Rd, a bias b∈R, and a sign κ∈ {± 1}, a ReLU neuron is a function
+ϕ(w, b, κ ) :Rd→Rdefined as
+ϕ(w, b, κ )(x) =κϕ(wTx+b).
+Shallow neural networks are constructed as weighted sums of neurons. Typically they are represented
+by a graph with nneurons in a single hidden layer. When using the ReLU activation function, we can
+apply a symmetry procedure to represent these as sums:
+¯ϕ¯p(x) =nX
+i=0ϕpi(x),
+where ¯pis the tuple (p1, . . . , p n).
+Assumption 1. The parameters ¯p, which index shallow ReLU networks, are drawn from a set
+¯P⊆(Rd×R× {± 1})n.
+For¯P, we assume there exist constants cw≥0andcb∈[1,3], such that for all parameter tuples
+¯p={(w1, b1, κ1), . . . , (wn, bn, κn)} ∈¯P, we have
+∥wi∥ ≤cwand|bi| ≤cb.
+We denote the set of shallow networks indexed by a parameter set ¯Pby
+Φ¯P:={ϕ¯p: ¯p∈¯P}.
+We now equip the input space Rdof the networks with a probability distribution. This distribution
+reflects the sampling process and makes each neural network a random variable. Additionally, a
+random label ytakes its values in the output space R, for which we assume the following.
+Assumption 2. The random sample x∈Rdand label y∈Rfollow a joint distribution µsuch that
+the marginal distribution µxof sample x is standard Gaussian with density
+1
+(2π)d/2exp
+−∥x∥2
+2
+.
+As available data, we assume independent copies {(xj, yj)}m
+j=1of the random pair (x, y), each
+distributed by µ.
+3 Concentration of the Empirical Norm
+Supervised learning algorithms interpolate labels yfor samples x, both distributed jointly by µon
+X × Y . This task is often solved under limited data accessibility. The training data, respecting
+Assumption 2, consists of mindependent copies of the random pair (x, y). During training, the
+interpolation quality of a hypothesis function f:X → Y can only be assessed at the given random
+samples {xj}m
+j=1. Any algorithm therefore accesses each function fthrough its sketch samples
+S[f] = (f(x1), . . . , f (xm)),
+2
+where Sis the sample operator. After training, the quality of a resulting model is often measured by
+its generalization to new data not used during training. With Rd×Ras the input and output space,
+we quantify a function f’s generalization error with its expected risk:
+Eµ[f] :=Eµ|y−f(x)|2.
+The functional || · || µ, also gives the norm of the space L2(Rd, µx), which consists of functions
+f:Rd→Rwith
+∥f∥2
+µ:=Eµx[|f(x)|2].
+If the label ydepends deterministically on the associated sample x, we can treat yas an element of
+L2(Rd, µx), and the expected risk of any function fis the function’s distance to y. By sketching any
+hypothesis function fwith the sample operator S, we perform a Monte-Carlo approximation of the
+expected risk, which is termed the empirical risk:
+∥f∥2
+m:=1
+mmX
+j=1(f(xj)−yj)2=1√m(y1, . . . , y m)T−S[f]2
+2.
+The random functional || · || malso defines a seminorm on L2(Rd, µx), referred to as the empirical
+norm. Under mild assumptions, || · || mfails to be a norm.
+In order to obtain a well generalizing model, the goal is to identify a function fwith a low expected
+risk. However, with limited data, we are restricted to optimizing the empirical risk. Our strategy for
+deriving generalization guarantees is based on the stochastic relation between both risks. If {xj}m
+j=1
+are independently distributed by µx, the law of large numbers implies that for any f∈L2(Rd, µx)
+the convergence
+lim
+m→∞∥f∥m=∥f∥µ.
+While this establishes the asymptotic convergence of the empirical norm to the function norm for a
+single function f, we have to consider two issues to formulate our concept of norm concentration:
+First, we need non-asymptotic results, that is bounds on the distance |∥f∥m− ∥f∥µ|for a fixed
+number of samples m. Second, the bounds on the distance need to be uniformly valid for all functions
+fin a given set.
+Sample operators which have uniform concentration properties have been studied as restricted
+isometries in the area of compressed sensing. For shallow ReLU networks of the form (1), we define
+the restricted isometry property of the sampling operator Sas follows.
+Definition 1. Lets∈(0,1)be a constant and ¯Pbe a parameter set. We say that the Neural Restricted
+Isometry Property (NeuRIPs( ¯P)) is satisfied if, for all ¯p∈¯Pit holds that
+(1−s)∥ϕ¯p∥µ≤ ∥ϕ¯p∥m≤(1 +s)∥ϕ¯p∥µ.
+In the following Theorem, we provide a bound on the number mof samples, which is sufficient for
+the operator Sto satisfy NeuRIPs( ¯P).
+Theorem 1. There exist universal constants C1,C2∈Rsuch that the following holds: For
+any sample operator S, constructed from random samples {xj}, respecting Assumption 2, let
+¯P⊂(Rd×R× {± 1})nbe any parameter set satisfying Assumption 1 and ||ϕ¯p||µ>1for all
+¯p∈¯P. Then, for any u > 2ands∈(0,1), NeuRIPs( ¯P) is satisfied with probability at least
+1−17 exp( −u/4)provided that
+m≥n3c2
+w
+(1−s)2max
+C1(8cb+d+ ln(2))
+u, C2n2c2
+w
+(u/s)2
+.
+One should notice that, in Theorem 1, there is a tradeoff between the parameter s, which limits the
+deviation |∥ · ∥ m− ∥ · ∥ µ|, and the confidence parameter u. The lower bound on the corresponding
+sample size mis split into two scaling regimes when understanding the quotient uof|∥·∥m−∥·∥ µ|/s
+as a precision parameter. While in the regime of low deviations and high probabilities the sample size
+mmust scale quadratically with u/s, in the regime of less precise statements one observes a linear
+scaling.
+3
+4 Uniform Generalization of Sublevel Sets of the Empirical Risk
+When the NeuRIPs event occurs, the function norm || · || µ, which is related to the expected risk, is
+close to || · || m, which corresponds to the empirical risk. Motivated by this property, we aim to find
+a shallow ReLU network ϕ¯pwith small expected risk by solving the empirical risk minimization
+problem:
+min
+¯p∈¯P∥ϕ¯p−y∥2
+m.
+Since the set Φ¯Pof shallow ReLU networks is non-convex, this minimization cannot be solved
+with efficient convex optimizers. Therefore, instead of analyzing only the solution ϕ∗
+¯pof the opti-
+mization problem, we introduce a tolerance ϵ >0for the empirical risk and provide bounds on the
+generalization error, which hold uniformly on the sublevel set
+¯Qy,ϵ:=
+¯p∈¯P:∥ϕ¯p−y∥2
+m≤ϵ	
+.
+Before considering generic regression problems, we will initially assume the label yto be a neural
+network itself, parameterized by a tuple p∗within the hypothesis set P. For all (x, y)in the support of
+µ, we have y=ϕp∗(x)and the expected risk’s minimum on Pis zero. Using the sufficient condition
+for NeuRIPs from Theorem 1, we can provide generalization bounds for ϕ¯p∈¯Qy,ϵfor any ϵ >0.
+Theorem 2. Let¯Pbe a parameter set that satisfies Assumption 1 and let u≥2andt≥ϵ >0be
+constants. Furthermore, let the number mof samples satisfy
+m≥8n3c2
+w(8cb+d+ ln(2)) max
+C1u
+(t−ϵ)2, C2n2c2
+wu
+(t−ϵ)2
+,
+where C1andC2are universal constants. Let {(xj, yj)}m
+j=1be a dataset respecting Assumption 2
+and let there exist a ¯p∗∈¯Psuch that yj=ϕ¯p∗(xj)holds for all j∈[m]. Then, with probability at
+least1−17 exp( −u/4), we have for all ¯q∈¯Qy,ϵthat
+∥ϕ¯q−ϕ¯p∗∥2
+µ≤t.
+Proof. We notice that ¯Qy,ϵis a set of shallow neural networks with 2nneurons. We normalize such
+networks with a function norm greater than tand parameterize them by
+¯Rt:={ϕ¯p−ϕ¯p∗: ¯p∈¯P,∥ϕ¯p−ϕ¯p∗∥µ> t}.
+We assume that NeuRIPs( ¯Rt) holds for s= (t−ϵ)2/t2. In this case, for all ¯q∈¯Qy,ϵ, we have that
+∥ϕ¯q−ϕ¯p∗∥m≥tand thus ¯q /∈¯Qϕ¯p∗,ϵ, which implies that ∥ϕ¯q−ϕ¯p∗∥µ≤t.
+We also note that ¯Rtsatisfies Assumption 1 with a rescaled constant cw/tand normalization-invariant
+cb, if¯Psatisfies it for cwandcb. Theorem 1 gives a lower bound on the sample complexity for
+NeuRIPs( ¯Rt), completing the proof.
+At any network where an optimization method terminates, the concentration of the empirical risk
+at the expected risk can be achieved with less data than needed to achieve an analogous NeuRIPs
+event. However, in the chosen stochastic setting, we cannot assume that the termination of an
+optimization and the norm concentration at that network are independent events. We overcome this
+by not specifying the outcome of an optimization method and instead stating uniform bounds on
+the norm concentration. The only assumption on an algorithm is therefore the identification of a
+network that permits an upper bound ϵon its empirical risk. The event NeuRIPs( ¯Rt) then restricts the
+expected risk to be below the corresponding level t.
+We now discuss the empirical risk surface for generic distributions µthat satisfy Assumption 2, where
+ydoes not necessarily have to be a neural network.
+Theorem 3. There exist constants C0,C1,C2,C3,C4, and C5such that the following holds: Let ¯P
+satisfy Assumption 1 for some constants cw,cb, and let ¯p∗∈¯Pbe such that for some c¯p∗≥0we
+have
+Eµ
+exp(y−ϕ¯p∗(x))2
+c2
+¯p∗
+≤2.
+We assume, for any s∈(0,1)and confidence parameter u >0, that the number of samples mis
+large enough such that
+m≥8
+(1−s)2max
+C1n3c2
+w(8cb+d+ ln(2))
+u
+, C2n2c2
+wu
+s
+.
+4
+We further select confidence parameters v1, v2> C 0, and define for some ω≥0the parameter
+η:= 2(1 −s)∥ϕ¯p∗−y∥µ+C3v1v2c¯p∗1
+(1−s)1/4+ω√
+1−s.
+If we set ϵ=∥ϕ¯p∗−y∥2
+m+ω2as the tolerance for the empirical risk, then the probability that all
+¯q∈¯Qy,ϵsatisfy
+∥ϕ¯q−y∥µ≤η
+is at least
+1−17 exp
+−u
+4
+−C5v2exp
+−C4mv2
+2
+2
+.
+Proof sketch. (Complete proof in Appendix E) We first define and decompose the excess risk by
+E(¯q,¯p∗) :=∥ϕ¯q−y∥2
+µ− ∥ϕ¯p∗−y∥2
+µ=∥ϕ¯q−ϕ¯p∗∥2
+µ−2
+mmX
+j=1(ϕ¯p∗(xj)−yj)(ϕ¯q(xj)−ϕ¯p∗(xj)).
+It suffices to show, that within the stated confidence level we have ∥ϕ¯q−y∥µ> η. This implies the
+claim since ∥ϕ¯q−y∥m≤ϵimplies ∥ϕ¯q−y∥µ≤η. We have E[E(¯q,¯p∗)]>0. It now only remains
+to strengthen the condition on η >3∥ϕ¯p∗−y∥µto achieve E(¯q,¯p∗)> ω2. We apply Theorem 1
+to derive a bound on the fluctuation of the first term. The concentration rate of the second term is
+derived similar to Theorem 1 by using chaining techniques. Finally in Appendix E, Theorem 12 gives
+a general bound to achieve
+E(¯q,¯p∗)> ω2
+uniformly for all ¯qwith∥ϕ¯q−ϕ¯p∗∥µ> η. Theorem 3 then follows as a simplification.
+It is important to notice that, in Theorem 3, as the data size mapproaches infinity, one can select
+an asymptotically small deviation constant s. In this limit, the bound ηon the generalization error
+converges to 3∥ϕ¯p∗−y∥µ+ω. This reflects a lower limit of the generalization bound, which is the
+sum of the theoretically achievable minimum of the expected risk and the additional tolerance ω.
+The latter is an upper bound on the empirical risk, which real-world optimization algorithms can be
+expected to achieve.
+5 Size Control of Stochastic Processes on Shallow Networks
+In this section, we introduce the key techniques for deriving concentration statements for the em-
+pirical norm, uniformly valid for sets of shallow ReLU networks. We begin by rewriting the event
+NeuRIPs( ¯P) by treating µas a stochastic process, indexed by the parameter set ¯P. The event
+NeuRIPs( ¯P) holds if and only if we have
+sup
+¯p∈¯P|∥ϕ¯p∥m− ∥ϕ¯p∥µ| ≤ssup
+¯p∈¯P∥ϕ¯p∥µ.
+The supremum of stochastic processes has been studied in terms of their size. To determine the size
+of a process, it is essential to determine the correlation between its variables. To this end, we define
+the Sub-Gaussian metric for any parameter tuples ¯p,¯q∈¯Pas
+dψ2(ϕ¯p, ϕ¯q) := inf(
+Cψ2≥0 :E"
+exp 
+|ϕ¯p(x)−ϕ¯q(x)|2
+C2
+ψ2!#
+≤2)
+.
+A small Sub-Gaussian metric between random variables indicates that their values are likely to be
+close. To capture the Sub-Gaussian structure of a process, we introduce ϵ-nets in the Sub-Gaussian
+metric. For a given ϵ >0, these are subsets ¯Q⊆¯Psuch that for every ¯p∈¯P, there is a ¯q∈¯Q
+satisfying
+dψ2(ϕ¯p, ϕ¯q)≤ϵ.
+The smallest cardinality of such an ϵ-net ¯Qis known as the Sub-Gaussian covering number
+N(Φ¯P, dψ2, ϵ). The next Lemma offers a bound for such covering numbers specific to shallow
+ReLU networks.
+5
+Lemma 1. Let¯Pbe a parameter set satisfying Assumption 1. Then there exists a set ˆPwith ¯P⊆ˆP
+such that
+N(ΦˆP, dψ2, ϵ)≤2n·16ncbcw
+ϵ+ 1n
+·32ncbcw
+ϵ+ 1n
+·1
+ϵsin1
+16ncw
++ 1d
+.
+The proof of this Lemma is based on the theory of stochastic processes and can be seen in Theorem 8
+of Appendix C.
+To obtain bounds of the form (6) on the size of a process, we use the generic chaining method. This
+method offers bounds in terms of the Talagrand-functional of the process in the Sub-Gaussian metric.
+We define it as follows. A sequence T= (Tk)k∈N0in a set Tis admissible if T0= 1andTk≤2(2k).
+The Talagrand-functional of the metric space is then defined as
+γ2(T, d) := inf
+(Tk)sup
+t∈T∞X
+k=02kd(t, Tk),
+where the infimum is taken across all admissible sequences.
+With the bounds on the Sub-Gaussian covering number from Lemma 1, we provide a bound on the
+Talagrand-functional for shallow ReLU networks in the following Lemma. This bound is expected to
+be of independent interest.
+Lemma 2. Let¯Psatisfy Assumption 1. Then we have
+γ2(Φ¯P, dψ2)≤r
+2
+π8n3/2cw(8cb+d+ 1)
+ln(2)p
+2 ln(2)
+.
+The key ideas to show this bound are similar to the ones used to prove Theorem 9 in Appendix C.
+To provide bounds for the empirical process, we use the following Lemma, which we prove in
+Appendix D.
+Lemma 3. LetΦbe a set of real functions, indexed by a parameter set ¯Pand define
+N(Φ) :=Z∞
+0q
+lnN(Φ, dψ2, ϵ)dϵ and ∆(Φ) := sup
+ϕ∈Φ∥ϕ∥ψ2.
+Then, for any u≥2, we have with probability at least 1−17 exp( −u/4)that
+sup
+ϕ∈Φ|∥ϕ∥m− ∥ϕ∥µ| ≤u√m
+N(Φ) +10
+3∆(Φ)
+.
+The bounds on the sample complexity for achieving the NeuRIPs event, from Theorem 1, are proven
+by applying these Lemmata.
+Proof of Theorem 1. Since we assume ||ϕ¯p||µ>1for all ¯p∈¯P, we have
+sup
+¯p∈¯P|∥ϕ¯p∥m− ∥ϕ¯p∥µ| ≤sup
+¯p∈¯P|∥ϕ¯p∥m− ∥ϕ¯p∥µ|/∥ϕ¯p∥µ.
+Applying Lemma 3, and further applying the bounds on the covering numbers and the Talagrand-
+functional for shallow ReLU networks, the NeuRIPs( ¯P) event holds in case of s >3. The sample
+complexities that are provided in Theorem 1 follow from a refinement of this condition.
+6 Uniform Generalization of Sublevel Sets of the Empirical Risk
+In case of the NeuRIPs event, the function norm || · || µcorresponding to the expected risk is close
+to|| · || m, which corresponds to the empirical risk. With the previous results, we can now derive
+uniform generalization error bounds in the sublevel set of the empirical risk.
+We use similar techniques and we define the following sets.
+∥f∥p= sup
+1≤q≤p∥f∥q
+Λk0,u= inf
+(Tk)sup
+f∈F∞X
+k02k∥f−Tk(f)∥u2k
+6
+and we need the following lemma:
+Lemma 9. For any set Fof functions and u≥1, we have
+Λ0,u(F)≤2√e(γ2(F, dψ2) + ∆( F)).
+Theorem 10. Let P be a parameter set satisfying Assumption 1. Then, for any u≥1, we have with
+probability at least 1−17 exp( −u/4)that
+sup
+¯p∈P∥ϕ¯p∥m− ∥ϕ¯p∥µ≤u√m
+16n3/2cw(8cb+d+ 1) + 2 ncw
+.
+Proof. To this end we have to bound the Talagrand functional, where we can use Dudley’s inequality
+(Lemma 6). To finish the proof, we apply the bounds on the covering numbers provided by Theorem
+6.
+Theorem 11. Let¯P⊆(Rd×R× ±1)nsatisfy Assumption 1. Then there exist universal constants
+C1,C2such that
+sup
+¯p∈P∥ϕ¯p∥m− ∥ϕ¯p∥µ≤r
+2
+π8n3/2cw(8cb+d+ 1)
+ln(2)p
+2 ln(2)
+.
+7 Conclusion
+In this study, we investigated the empirical risk surface of shallow ReLU networks in terms of uniform
+concentration events for the empirical norm. We defined the Neural Restricted Isometry Property
+(NeuRIPs) and determined the sample complexity required to achieve NeuRIPs, which depends on
+realistic parameter bounds and the network architecture. We applied our findings to derive upper
+bounds on the expected risk, which are valid uniformly across sublevel sets of the empirical risk.
+If a network optimization algorithm can identify a network with a small empirical risk, our results
+guarantee that this network will generalize well. By deriving uniform concentration statements, we
+have resolved the problem of independence between the termination of an optimization algorithm at
+a certain network and the empirical risk concentration at that network. Future studies may focus on
+performing uniform empirical norm concentration on the critical points of the empirical risk, which
+could lead to even tighter bounds for the sample complexity.
+We also plan to apply our methods to input distributions more general than the Gaussian distribution.
+If generic Gaussian distributions can be handled, one could then derive bounds for the Sub-Gaussian
+covering number for deep ReLU networks by induction across layers. We also expect that our
+results on the covering numbers could be extended to more generic Lipschitz continuous activation
+functions other than ReLU. This proposition is based on the concentration of measure phenomenon,
+which provides bounds on the Sub-Gaussian norm of functions on normal concentrating input spaces.
+Because these bounds scale with the Lipschitz constant of the function, they can be used to find ϵ-nets
+for neurons that have identical activation patterns.
+Broader Impact
+Supervised machine learning now affects both personal and public lives significantly. Generalization is
+critical to the reliability and safety of empirically trained models. Our analysis aims to achieve a deeper
+understanding of the relationships between generalization, architectural design, and available data.
+We have discussed the concepts and demonstrated the effectiveness of using uniform concentration
+events for generalization guarantees of common supervised machine learning algorithms.
+7

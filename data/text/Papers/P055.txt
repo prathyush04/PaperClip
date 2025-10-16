@@ -1,0 +1,131 @@
+Examining the Initial Experiences of Researchers
+When Articulating Broader Impact
+Abstract
+By mandating a broader impact statement with every submission for this year’s
+conference, the program chairs at the conference highlighted ethics as a crucial
+component of AI research. Building on precedents from other fields and a grow-
+ing awareness within the community, this paper seeks to explore how individual
+researchers responded to this new requirement. This exploration includes their
+opinions, their experiences during the drafting process, and their reflections after
+their papers were accepted. We present survey results and key considerations to
+inform the next iteration of the broader impact requirement, should it continue to
+be mandated for future conferences.
+1 Introduction
+There is a growing number of unethical uses of technology. To counter this trend, some proposals
+suggest limiting investment or procurement without impact assessment, or even calling for outright
+bans. Other proposals aim to instill ethical practices earlier in the research stage, before technology
+transfers into products. Conferences that are typically technical have begun to host workshops on
+social impact issues and, in some instances, have announced more interdisciplinary subject areas.
+The most significant change may be the requirement for a statement of broader impact for all
+submissions. Unlike workshops and interdisciplinary tracks, which might be viewed as more specific,
+this requirement affects every submission, of which there are over 9000 this year. While broader
+impact statements themselves are not new to the wider research community, they are new to this
+specific community. This paper seeks to explore how individual researchers responded to the new
+requirement, including their perspectives, their experiences and process in drafting the statements,
+and their subsequent thoughts after paper acceptances.
+This research was initiated through internal discussion at our organization, which then became part
+of a broader public conversation. To collect perspectives from researchers, both within and beyond
+our organization, we developed an online public survey. The findings from this survey help to
+inform considerations for designing the next iteration of the broader impact requirement, should
+it remain a requirement for future conferences. While it is recognized that researchers are not the
+only intended audience for these statements, and that others also have responsibilities in ethical
+research and technology development, researchers represent a critical mass to mobilize in this effort.
+Understanding the researchers’ experience and process is essential not only to the design of the
+requirement, but also to advancing ethical research practices in general.
+2 Survey Method
+The study employed an exploratory mixed-methods survey with both open and closed-ended questions.
+The survey was split into two sections, one for researchers who submitted to the conference, and
+another for those who did not. The survey was anonymous, and no demographic information was
+collected. The survey was distributed online via research community channels and on social media.
+The goals were to understand how researchers considered the implications of their research, how
+.
+they defined their impact statements, and to understand their opinions on this new submission
+requirement. Survey questions focused on their approach to writing the statement, encountered
+challenges, the perceived influence of the statement on the overall submission, and their views on the
+new requirement.
+3 Survey Results
+A total of 50 participants responded to the survey, with the majority identifying as academics (72
+percent) and industry researchers (23.5 percent). There was a balanced breakdown by career stage,
+with graduate students making up the largest group of respondents (33 percent). Among the group
+that submitted, the majority identified their subject areas as deep learning and theory. However,
+among researchers who did not submit, deep learning and social aspects of machine learning were the
+primary subject areas. The survey population was not compared to the overall population, though this
+could be an area for future study. Our questions focused on the process and challenges in completing
+the submission requirement, the perceived impact of the requirement on paper acceptances, and
+researchers’ views on the requirement.
+3.1 Process and Challenges
+When asked about their approach to the broader impact statements, 83.8 percent of respondents
+indicated that they completed this part with their co-authors, without external help. The rest of
+the participants used other approaches such as accepting support or reaching out for help. A large
+majority spent less than 2 hours on the statement, and almost half mentioned it was not challenging to
+prepare. There were differing trends for what could make it difficult. Some viewed their theoretical
+work as too distant from practical applications, making the exercise speculative. Others perceived
+the requirement as a "bureaucratic constraint". Researchers at different stages of their career found
+the exercise more or less challenging, but their professional domain did not appear to affect their
+experienced difficulty with the exercise.
+3.2 Impact on Submission
+Although it was clarified that submissions would not be rejected solely on the basis of the broader
+impact statement, the survey explored the researcher’s perspectives on this. For researchers who
+submitted, over 75 percent believed the statements were not taken into consideration, yet almost
+90 percent thought it was unclear how reviewers would evaluate the statements. Even with an
+unclear evaluation process, when asked how confident they were that their statement was adequately
+addressing the requirement, 43.2 percent stated that they were either confident or very confident.
+Time spent did not seem to have an impact, since most of the respondents who spent less than an
+hour also received acceptances. Those who sought external help appeared to have a lower ratio of
+rejections, but our sample size may be too small to draw conclusive results.
+3.3 Framing
+The survey explored researchers’ views on the requirement and its framing. Our results indicated
+that the community was divided on how to frame the requirement; 56 percent did not agree that
+broader impact was the right way to frame the requirement, while 44 percent did. This split was
+similar when compared to subject area, submitters vs. non-submitters, and academia vs. industry.
+Postdoctoral/early-career and mid-career respondents were more supportive of the requirement
+framing than students and senior researchers. There seems to be a general feeling that assessing
+broader impact is important, but uncertainty regarding who should do it and how. Some respondents
+described the requirement as "too broad" or said they did not feel "qualified to address the broader
+impact of their work." Some who supported the requirement found the thought process to be valuable
+and that it "forces researchers to reflect on the impact of their research".
+4 Integrating Feedback into Next Iteration of Broader Impact
+The survey results inform future iterations of the broader impact requirement. When asked what
+could have helped them most, 92 percent of respondents indicated that examples of statements
+2
+would be most helpful. There will be an increasing number of examples to draw from in future
+years. Guidelines were the second most popular request, regarding when a statement might be
+applicable or how to formulate one. This section proposes how to integrate respondent feedback
+into future iterations: rethinking the requirement design and framing, developing greater capacity
+and confidence among researchers, and reflecting the shared responsibility of ethical research and
+technology development.
+4.1 Requirement Design
+If the goal is to develop ethical research practices, there may be other approaches to achieve this
+goal. While written statements make sense given the paper-based nature of submissions, survey
+respondents indicated a mix of nonchalance, outright farce, or perceived burden. These attitudes
+may have a counterproductive effect on an ethical research goal. We encourage program chairs to
+consider mechanisms to limit that effect (e.g., an incentive for "best" broader impact statements).
+Such mechanisms are important not only to manage negative effects but also to encourage researchers
+who found the exercise valuable.
+4.2 Capacity Building
+Given that many respondents felt they were not qualified to address the broader impact of their
+work, workshops may help build capacity over time, and provide a space for researchers to examine
+their work with a more diverse group of researchers. Discussions could help develop capacity and
+confidence, and surface overlooked impacts. Interdisciplinary collaborations could also introduce
+new guidelines or methodologies such as the theory of change or consequence scanning.
+4.3 Shared Responsibility
+Recognizing how different systems and social contexts interact would increase the quality of the
+discussion on broader impact, and develop a sense of shared responsibility for ethical research and
+technology development. Researchers are a critical mass, but others such as conference organizers,
+institutions, funders, and users also have roles and responsibilities. To address concerns around
+burden and expertise, the assessment of broader impact could be more of a multi-stakeholder exercise.
+5 Conclusion
+This paper and its underlying survey investigated how researchers approached the broader impact
+statement and surfaced considerations to better design this requirement in future years. While the
+survey represented a small sample of the community, its results demonstrate a division regarding
+how the requirement is framed. Initiating a conversation about broader impact is itself a step towards
+establishing norms and best practices for ethical research. We encourage further work to monitor the
+evolution of researcher’s perspectives, not only at top conferences, but also at-large.
+6 Acknowledgements
+The authors thank Noémie Lachance, Tara Tressel, and the Research Group for their support and
+participation throughout this project.
+7 Supplementary Material
+The survey questions and the responses received are available for further investigation and use. The
+survey remains open to responses. At the time of writing, we had 50 responses which were used for
+the analysis in this paper.
+3

@@ -1,0 +1,65 @@
+A Collaborative Painting Experience:
+Human-Machine Interaction on Canvas
+Abstract
+We introduce a novel approach to human-machine interaction, framed as a pictorial
+game where artists and a computer collaborate in iterative creative rounds. The
+computer uses machine learning to partially complete the artwork at each stage,
+projecting its additions directly onto the canvas, which the artists are then able to
+modify or incorporate. This process encourages creative exploration and provokes
+questions about the growing relationship between humans and machines.
+1 Introduction
+The ongoing technological advancements are reshaping human-machine interaction, providing new
+tools for artistic creation while simultaneously prompting contemplation on their effects on human
+creativity.
+Generative Adversarial Networks (GANs) have demonstrated the creative abilities of neural networks,
+producing aesthetically full paintings. However, in these instances, humans serve as either engineers
+or curators. Our work introduces a new method of machine utilization, integrating it into the core of
+human creative processes. While painting, this approach presents humans with different paths and
+concepts for their artwork. This concept is approached through a unique interactive framework.
+The artist duo Tina and Charly have previously investigated interaction through canvas art. To initiate
+their creative work, they select a theme and depict it in dark colors on a white canvas. They then
+start their game. At each round, using a vocabulary of strokes and symbols, Charly anticipates Tina’s
+emotions and thoughts in red, before responding with green strokes on the painting. These rounds
+continue until both artists reach an agreement on finishing the painting. The entire process unfolds in
+silence, with the canvas serving as the sole medium of dialogue.
+The purpose of our work is to introduce artificial intelligence as a third participant in Tina and
+Charly’s dialogue. The AI initially captures a raw representation of the painting, then processes it to
+partially complete the work in progress, which it projects back onto the canvas. The artists then have
+the freedom to incorporate the machine’s suggestion in blue, a color that has not been assigned to
+either player. The use of different colors allows for the analysis of each player’s contributions.
+2 Methodology
+The engineered system includes a camera and a projector connected to a computer on a support. At
+each computer round, the system captures an image of the painting and analyzes it to extract the
+canvas strokes. This pre-processing is made robust to changes in lighting, ensuring that the interaction
+can be used seamlessly in any studio. These strokes then feed into a neural sketcher, which produces
+new strokes to be added to the painting. Post-processing is used to project those additions back onto
+the canvas.
+The neural sketcher is a recurrent neural network, based on a recent improvement to the seminal work
+of previous research. It is trained using a sequence of points and a channel encoding for stroke breaks.
+The sketcher produces a similar series, which is then converted back into strokes on the original
+.
+painting. The network was trained using the QuickDraw data set, enabling it to create human-like
+strokes. For integration with Tina and Charly’s style, the learning was refined using a sketch database
+from previous paintings by the artists.
+3 Discussion
+The artists found the machine strokes to be surprising and suggestive of movements they would not
+have made on their own. Some painters have previously expressed how unintended strokes can be
+evocative. Our installation, where the machine projects completions without physically painting, and
+the generative network capabilities, allows this to be explored. Furthermore, the ability to change
+parameters, such as the learning data set, provides the artist with more control over their usage of the
+machine.
+Our interactive installation can be used by anyone and aims to raise awareness and initiate thought
+about the interplay between humans and machines. This work highlights the need to make machines
+human-friendly, while also acknowledging how technology changes human behaviors and routines.
+Tina and Charly felt like they were interacting with a full-body system, which had been designed
+to simulate human-like painting. They experienced the machine as sometimes restricting, hard to
+understand, and sometimes magical. It infused new dimensions into the painting. The feeling that the
+machine could be collaborative or limiting is an echo of the role of technologies in our daily lives.
+From an outsider’s perspective, the machine changes their original painting style, both in the short
+term artworks (as seen in Figure 2), and on their long-term body of work, inspiring their machine-free
+paintings. Even though we have made the machine’s influence explicit with its blue contributions, the
+interaction is not neutral.
+4 Acknowledgments
+The authors would like to thank Yana Hasson and Yann Labbé for coding insights, Erwan Kerdreux
+for art history discussions, and Thomas Lartigue for general discussions.
+2
