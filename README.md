@@ -77,8 +77,6 @@ cd frontend
 npm start
 ```
 
-Visit `http://localhost:3000` to use the web interface.
-
 ### 5. Command Line Usage
 
 **Single Paper Recommendation:**
